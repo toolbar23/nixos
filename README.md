@@ -1,6 +1,6 @@
 # toolbar23 NixOS
 
-Personal NixOS setup inspired by RGBCube/ncc with Hyprland, Quickshell (stub), home-manager, nixCats-nvim, and an automated installer ISO.
+Personal NixOS setup inspired by RGBCube/ncc with Hyprland, Quickshell bar, home-manager, nixCats-nvim, and an automated installer ISO.
 
 ## Layout
 - `flake.nix`: entry point using `nixpkgs-unstable`, home-manager, disko, lanzaboote, nixCats-nvim.
@@ -26,10 +26,11 @@ Result is in `result/iso/`.
 
 ## Post-install
 - Autologin to Hyprland via greetd/tuigreet for user `pm`.
+- Quickshell panel (Hyprland bar) autostarts, config at `~/.config/quickshell/quickshell.qml`.
 - Neovim comes from nixCats-nvim input.
 - Core services: PipeWire, Bluetooth, CUPS + drivers, Ghostty, Chromium, JetBrains Mono, starship for bash.
 
 ## Notes
 - Secure Boot uses lanzaboote (self-signed keys in `/etc/secureboot`).
 - Swapfile size = max(64 GiB, RAM size). Resume offset is written to `/etc/nixos/secrets/resume_offset` after first boot; rebuild once to apply it to the kernel cmdline.
-- Quickshell package is installed; drop your QML config under `~/.config/quickshell/` and start it from Hyprland exec-once when ready. 
+- Quickshell bar QML lives at `~/.config/quickshell/quickshell.qml`; tweak it and reload Hyprland/Quickshell to apply.

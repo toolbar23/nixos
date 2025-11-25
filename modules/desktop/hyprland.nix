@@ -39,6 +39,7 @@ in {
         exec-once = [
           "swaybg --color '#1e1e2e'"
           "waybar"
+          "quickshell --config ~/.config/quickshell/quickshell.qml"
         ];
 
         general = {

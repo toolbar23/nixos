@@ -1,10 +1,11 @@
 { config, inputs, lib, pkgs, ... }: let
+  dollar = "$";
   installerScript = pkgs.writeShellScript "run-installer" ''
     set -euo pipefail
 
     user="pm"
     default_repo="https://github.com/toolbar23/nixos"
-    read -p "Config repo URL [${default_repo}]: " repo
+    read -p "Config repo URL [$default_repo]: " repo
     repo=''${repo:-$default_repo}
 
     echo "Ensuring network connectivity (launching nmtui until online)..."
@@ -22,14 +23,14 @@
       machines+=("$base")
     done < <(find "$workdir/machines" -maxdepth 1 -name '*.nix' | sort)
 
-    if [ ''${#machines[@]} -eq 0 ]; then
+    if [ ${dollar}{#machines[@]} -eq 0 ]; then
       echo "No machines found in $workdir/machines" >&2
       exit 1
     fi
 
     echo "Select machine profile:"
-    select machine in "''${machines[@]}"; do
-      [ -n "''${machine:-}" ] && break
+    select machine in "${dollar}{machines[@]}"; do
+      [ -n "${dollar}{machine:-}" ] && break
       echo "Invalid choice"
     done
 
@@ -43,7 +44,7 @@
       exit 1
     fi
 
-    echo "Set password for root/${user} (used for both accounts):"
+    echo "Set password for root/$user (used for both accounts):"
     while true; do
       read -s -p "Password: " pw1; echo
       read -s -p "Repeat  : " pw2; echo
@@ -53,14 +54,15 @@
     hash=$(printf "%s" "$pw1" | openssl passwd -6 -stdin)
 
     mkdir -p /etc/nixos/secrets
-    printf "%s\n" "$hash" > /etc/nixos/secrets/${user}.passwd
+    passfile="/etc/nixos/secrets/$user.passwd"
+    printf "%s\n" "$hash" > "$passfile"
 
     echo "Running disko-install..."
     nix run 'github:nix-community/disko/latest#disko-install' -- --flake "$workdir#$machine" --disk main "$disk"
 
     echo "Copying password hash into target..."
     mkdir -p /mnt/etc/nixos/secrets
-    cp /etc/nixos/secrets/${user}.passwd /mnt/etc/nixos/secrets/${user}.passwd
+    cp "$passfile" /mnt/etc/nixos/secrets/$user.passwd
 
     cat <<'EOF'
 Install finished.
@@ -76,7 +78,7 @@ in {
 
   isoImage.squashfsCompression = "zstd";
 
-  services.getty.autologinUser = "root";
+  services.getty.autologinUser = lib.mkForce "root";
   networking.hostName = "nixos-installer";
 
   programs.bash.loginShellInit = ''
@@ -90,7 +92,6 @@ in {
   environment.systemPackages = with pkgs; [
     git
     jujutsu
-    nmtui
     networkmanager
     openssl
     disko

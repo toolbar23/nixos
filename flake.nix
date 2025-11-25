@@ -13,8 +13,10 @@
     lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixCats-nvim.url = "github:BirdeeHub/nixCats-nvim";
-    nixCats-nvim.inputs.nixpkgs.follows = "nixpkgs";
+    nixCats-nvim = {
+      url = "github:BirdeeHub/nixCats-nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, disko, lanzaboote, nixCats-nvim, ... }:
@@ -34,7 +36,7 @@
               ./modules/core/nix.nix
               ./modules/core/locale.nix
               ./modules/core/users.nix
-              ./modules/hardware/common-amd.nix
+              ./modules/hardware/common.nix
               ./modules/hardware/btrfs-luks.nix
               ./modules/security/secure-boot.nix
               ./modules/desktop/greetd.nix

@@ -1,0 +1,17 @@
+# jj
+/.jj/
+
+# nix/derivations
+/result
+/result-*
+
+# local overrides
+/local/generated.nix
+
+# editor
+*.swp
+*.swo
+.DS_Store
+
+# build artifacts
+*.log

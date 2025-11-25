@@ -4,7 +4,7 @@
     machineRole = "development";
     disk.device = "/dev/nvme0n1";
     disk.swapSizeGiB = 64;
-    gpu = "amd";
+    gpu = "intel";
   };
 
   networking.hostName = config.my.hostName;

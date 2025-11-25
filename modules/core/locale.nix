@@ -4,7 +4,7 @@ in {
   time.timeZone = mkDefault config.my.timeZone;
 
   i18n.defaultLocale = mkDefault config.my.locale.primary;
-  i18n.supportedLocales = [ config.my.locale.primary config.my.locale.secondary ];
+  i18n.extraLocales = [ config.my.locale.secondary ];
   i18n.extraLocaleSettings = {
     LC_ADDRESS        = config.my.locale.secondary;
     LC_IDENTIFICATION = config.my.locale.secondary;
