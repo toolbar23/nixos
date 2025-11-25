@@ -38,7 +38,6 @@
               ./modules/core/users.nix
               ./modules/hardware/common.nix
               ./modules/hardware/btrfs-luks.nix
-              ./modules/security/secure-boot.nix
               ./modules/desktop/greetd.nix
               ./modules/desktop/hyprland.nix
               ./modules/desktop/quickshell.nix

@@ -11,10 +11,7 @@ Personal NixOS setup inspired by RGBCube/ncc with Hyprland, Quickshell bar, home
 
 ## Build the installer ISO
 ```bash
- nix --extra-experimental-features 'nix-command flakes' build .#installerIso
-nix build .#installerIso
-
-
+scripts/build-iso.sh
 ```
 
 Result is in `result/iso/`.
@@ -35,6 +32,5 @@ Result is in `result/iso/`.
 - Core services: PipeWire, Bluetooth, CUPS + drivers, Ghostty, Chromium, JetBrains Mono, starship for bash.
 
 ## Notes
-- Secure Boot uses lanzaboote (self-signed keys in `/etc/secureboot`).
 - Swapfile size = max(64 GiB, RAM size). Resume offset is written to `/etc/nixos/secrets/resume_offset` after first boot; rebuild once to apply it to the kernel cmdline.
 - Quickshell bar QML lives at `~/.config/quickshell/quickshell.qml`; tweak it and reload Hyprland/Quickshell to apply.
