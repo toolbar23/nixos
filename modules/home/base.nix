@@ -22,9 +22,9 @@ in {
 
     programs.git = {
       enable = true;
-      userName = my.user.fullName;
-      userEmail = my.user.email;
-      extraConfig = {
+      settings = {
+        user.name = my.user.fullName;
+        user.email = my.user.email;
         init.defaultBranch = "main";
       };
     };
@@ -40,7 +40,7 @@ in {
 
     programs.neovim = {
       enable = true;
-      package = inputs.nixCats-nvim.packages.${pkgs.system}.default;
+      package = pkgs.neovim-unwrapped;
       defaultEditor = true;
     };
 

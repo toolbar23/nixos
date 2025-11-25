@@ -28,13 +28,11 @@ in {
       intel.updateMicrocode = lib.mkIf (gpu == "intel") true;
     };
 
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
       extraPackages =
-        lib.optionals (gpu == "amd") (with pkgs; [ rocmPackages.clr.icd amdvlk ]) ++
-        lib.optionals (gpu == "intel") (with pkgs; [ intel-media-driver vaapiIntel libvdpau-va-gl ]);
+        lib.optionals (gpu == "amd") (with pkgs; [ rocmPackages.clr.icd ]) ++
+        lib.optionals (gpu == "intel") (with pkgs; [ intel-media-driver intel-vaapi-driver libvdpau-va-gl ]);
     };
   };
 

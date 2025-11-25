@@ -62,7 +62,7 @@ in {
   };
 
   boot.resumeDevice = lib.mkDefault "/dev/mapper/cryptroot";
-  swapDevices = [ { file = swapFile; } ];
+  swapDevices = [ { device = swapFile; } ];
 
   boot.kernelParams = lib.mkIf (builtins.pathExists resumeOffsetFile) [
     ("resume_offset=" + lib.removeSuffix "\n" (builtins.readFile resumeOffsetFile))
@@ -87,9 +87,10 @@ in {
         chattr +C /swap 2>/dev/null || true
         btrfs property set /swap compression none 2>/dev/null || true
 
-        mem_kib=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+        mem_kib=$(awk '/MemTotal/ {print $2}' /proc/meminfo || echo 0)
         mem_gib=$(( (mem_kib + 1048575) / 1048576 ))
         target_gib=${toString config.my.disk.swapSizeGiB}
+        : ''${target_gib:=64}
         if [ "$mem_gib" -gt "$target_gib" ]; then
           target_gib=$mem_gib
         fi
@@ -97,8 +98,8 @@ in {
           target_gib=64
         fi
 
-        echo "Creating swapfile of ${target_gib}G at $swap_file"
-        fallocate -l "${target_gib}G" "$swap_file"
+        echo "Creating swapfile of ''${target_gib}G at $swap_file"
+        fallocate -l "''${target_gib}G" "$swap_file"
         chmod 600 "$swap_file"
         btrfs property set "$swap_file" compression none 2>/dev/null || true
         chattr +C "$swap_file" 2>/dev/null || true

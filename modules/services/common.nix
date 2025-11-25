@@ -29,10 +29,10 @@
     packages = with pkgs; [
       jetbrains-mono
       noto-fonts
-      noto-fonts-cjk
-      noto-fonts-emoji
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
       font-awesome
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
     ];
     enableDefaultPackages = true;
   };
