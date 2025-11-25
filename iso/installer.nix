@@ -3,6 +3,11 @@
   installerScript = pkgs.writeShellScript "run-installer" ''
     set -euo pipefail
 
+    if [ "$(id -u)" -ne 0 ]; then
+      echo "Re-running installer as root..."
+      exec sudo -E bash "$0" "$@"
+    fi
+
     user="pm"
     default_repo="https://github.com/toolbar23/nixos"
     read -p "Config repo URL [$default_repo]: " repo
