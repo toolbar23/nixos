@@ -37,12 +37,15 @@
     read -p "Target disk [/dev/nvme0n1]: " disk
     disk=''${disk:-/dev/nvme0n1}
 
-    echo "About to wipe $disk and install $machine from $repo"
-    read -p "Type YES to continue: " confirm
-    if [ "$confirm" != "YES" ]; then
-      echo "Aborting."
-      exit 1
-    fi
+    while true; do
+      echo "About to wipe $disk and install $machine from $repo"
+      read -p "Type YES to continue: " confirm
+      if [ "$confirm" = "YES" ]; then
+        break
+      fi
+      echo "You must type YES exactly (Ctrl+C to abort or reboot)."
+      sleep 1
+    done
 
     echo "Set password for root/$user (used for both accounts):"
     while true; do
@@ -53,8 +56,8 @@
     done
     hash=$(printf "%s" "$pw1" | openssl passwd -6 -stdin)
 
-    mkdir -p /etc/nixos/secrets
-    passfile="/etc/nixos/secrets/$user.passwd"
+    passfile="/tmp/install.passwd"
+    umask 077
     printf "%s\n" "$hash" > "$passfile"
 
     echo "Running disko-install..."
