@@ -1,6 +1,6 @@
 # jj
 /.jj/
-
+/_ref/
 # nix/derivations
 /result
 /result-*
