@@ -78,7 +78,7 @@ in {
 
   isoImage.squashfsCompression = "zstd";
 
-  services.getty.autologinUser = lib.mkForce "root";
+  services.getty.autologinUser = lib.mkOverride 999 "root";
   networking.hostName = "nixos-installer";
 
   programs.bash.loginShellInit = ''

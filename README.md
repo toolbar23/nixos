@@ -11,8 +11,12 @@ Personal NixOS setup inspired by RGBCube/ncc with Hyprland, Quickshell bar, home
 
 ## Build the installer ISO
 ```bash
+ nix --extra-experimental-features 'nix-command flakes' build .#installerIso
 nix build .#installerIso
+
+
 ```
+
 Result is in `result/iso/`.
 
 ## Installer flow (ISO)
